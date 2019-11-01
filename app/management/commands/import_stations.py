@@ -1,4 +1,5 @@
 import csv
+from tqdm import tqdm
 
 from django.core.management.base import BaseCommand
 from app.models import Station, Route
@@ -11,7 +12,7 @@ class Command(BaseCommand):
 
             stations_reader = csv.DictReader(csvfile, delimiter=';')
 
-            for row in stations_reader:
+            for row in tqdm(stations_reader):
                 station = Station()
                 station.name = row['Name']
                 station.longitude = row['Longitude_WGS84']

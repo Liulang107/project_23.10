@@ -20,7 +20,7 @@
 
         {% for item in stations %}
           myMap.geoObjects
-            .add(new ymaps.Placemark([{{ item.latitude }}, {{ item.longitude }}], {
+            .add(new ymaps.Placemark([{{ item.latitude|stringformat:"f" }}, {{ item.longitude|stringformat:"f" }}], {
               balloonContent: '{{ item.route_numbers }}',
               iconCaption: '{{ item.name }}'
             }, {
