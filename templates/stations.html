@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Карта автобусных остановок{% endblock %}
 {% block head %}
     <!--
         Для запуска на сервере, укажите свой API-ключ. Тестовый ключ НЕ БУДЕТ работать на других сайтах.
         Получить ключ можно в Кабинете разработчика: https://developer.tech.yandex.ru/keys/
     -->
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=a53ebcac-49a1-4e22-a368-876496d5d344&lang=ru_RU" type="text/javascript"></script>
     <script type="text/javascript">
       ymaps.ready(init);
 
       function init() {
         var myMap = new ymaps.Map("map", {
-          center: [{{ center.y }}, {{ center.x }}],
+          center: [{{ center.x }}, {{ center.y }}],
           zoom: 13
         }, {
           searchControlProvider: 'yandex#search'
@@ -20,7 +21,7 @@
 
         {% for item in stations %}
           myMap.geoObjects
-            .add(new ymaps.Placemark([{{ item.latitude|stringformat:"f" }}, {{ item.longitude|stringformat:"f" }}], {
+            .add(new ymaps.Placemark([{{ item.latitude }}, {{ item.longitude }}], {
               balloonContent: '{{ item.route_numbers }}',
               iconCaption: '{{ item.name }}'
             }, {
@@ -30,12 +31,19 @@
         {% endfor %}
       }
     </script>
+<body>
+    <div id="map" style="width: 600px; height: 400px"></div>
+</body>
 {% endblock %}
 {% block content %}
     <form method="GET" action="/stations/">
         <div class="row form-top">
             <div class="col-md-4 text-right align-middle form-top">
                 Выберите маршрут:
+                {{ center.x }}, {{ center.y }}
+<!--                {% for item in stations %}-->
+<!--                {{ item.latitude }}, {{ item.longitude }}-->
+<!--                {% endfor %}-->
             </div>
             <div class="col-md-4 form-top">
                 <select name="route" class="form-control">

@@ -16,14 +16,17 @@ def stations_view(request):
         stations = stations.order_by('longitude')
         st_first = stations.first()
         st_last = stations.last()
-        x = (st_first.longitude + st_last.longitude) / 2
+        y = (st_first.longitude + st_last.longitude) / 2
 
         stations = stations.order_by('latitude')
         st_first = stations.first()
         st_last = stations.last()
-        y = (st_first.latitude + st_last.latitude ) / 2
+        x = (st_first.latitude + st_last.latitude ) / 2
 
         context['center'] = {'x': x, 'y': y}
+    else:
+        context['center'] = {'x':'55.75370903771494', 'y': '37.61981338262558', }
+    print(context)
 
     return render(request, 'stations.html', context)
 
